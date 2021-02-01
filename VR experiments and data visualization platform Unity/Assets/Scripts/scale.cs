@@ -10,7 +10,8 @@ public class scale : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        login myloginOne = new login();
+        myloginOne.loginStarter();
     }
     private void OnTriggerEnter(Collider other)
     {

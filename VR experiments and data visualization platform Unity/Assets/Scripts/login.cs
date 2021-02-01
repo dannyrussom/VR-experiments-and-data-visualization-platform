@@ -13,15 +13,16 @@ public class login : MonoBehaviour
     public Canvas loginCanvas;
     public Canvas experimentCanvas;
     public GameObject ErrorMessage;
+    public GameObject ErrorMessagep;
     public TMPro.TMP_InputField usersnameInputField;
     public TMPro.TMP_InputField passwordInputField;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         
     }
-
+    
     public void SetToProfessor()
     {
         occupation = "professor";
@@ -32,20 +33,21 @@ public class login : MonoBehaviour
         occupation = "Student";
     }
 
+    
    
     public void loginStarter()
     {
-        if (username1.GetComponent<TMPro.TextMeshProUGUI>().text == null)
+        if (username1.GetComponent<TMPro.TextMeshProUGUI>().text.Length <= 1)
         {
             ErrorMessage.gameObject.SetActive(true);
             ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = "username can't be empty!";
         }
-        else if (password1.GetComponent<TMPro.TextMeshProUGUI>().text == null)
+        if (password1.GetComponent<TMPro.TextMeshProUGUI>().text.Length <= 1)
         {
-            ErrorMessage.gameObject.SetActive(true);
-            ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = "password can't be empty!";
+            ErrorMessagep.gameObject.SetActive(true);
+            ErrorMessagep.GetComponent<TMPro.TextMeshProUGUI>().text = "password can't be empty!";
         }
-        else
+        if (username1.GetComponent<TMPro.TextMeshProUGUI>().text.Length > 1 && password1.GetComponent<TMPro.TextMeshProUGUI>().text.Length > 1)
         {
             //ErrorMessage.gameObject.SetActive(false);
             if (occupation == "Student")
@@ -55,7 +57,7 @@ public class login : MonoBehaviour
             }
             else if (occupation == "professor")
             {
-                // StartCoroutine(studentLogin(username1.ToString(), password1.ToString()));
+                StartCoroutine(professorLogin(username1.GetComponent<TMPro.TextMeshProUGUI>().text.ToString(), password1.GetComponent<TMPro.TextMeshProUGUI>().text.ToString()));
             }
             else
             {
@@ -85,6 +87,7 @@ public class login : MonoBehaviour
                     usersnameInputField.text = "";
                     passwordInputField.text = "";
                     ErrorMessage.gameObject.SetActive(false);
+                    ErrorMessagep.gameObject.SetActive(false);
                     loginCanvas.gameObject.SetActive(false);
                     experimentCanvas.gameObject.SetActive(true);
                 }
@@ -94,7 +97,42 @@ public class login : MonoBehaviour
                     passwordInputField.text = "";
                     ErrorMessage.gameObject.SetActive(true);
                     ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
-                    Debug.Log("!"+password+"fend");
+                    Debug.Log(password);
+                }
+            }
+        }
+    }
+
+    IEnumerator professorLogin(string firstname, string password)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("firstname", firstname);
+        form.AddField("password", password);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/professorlogin.php", form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log("error");
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                if (www.downloadHandler.text.Contains("successful"))
+                {
+                    usersnameInputField.text = "";
+                    passwordInputField.text = "";
+                    ErrorMessage.gameObject.SetActive(false);
+                    loginCanvas.gameObject.SetActive(false);
+                    experimentCanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    usersnameInputField.text = "";
+                    passwordInputField.text = "";
+                    ErrorMessage.gameObject.SetActive(true);
+                    ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
+                    Debug.Log(password);
                 }
             }
         }
