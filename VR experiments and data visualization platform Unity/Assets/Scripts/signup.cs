@@ -109,7 +109,7 @@ public class signup : MonoBehaviour
         form.AddField("professor", professor);
         form.AddField("question", question);
         form.AddField("answer", answer);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/studentsignup.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/studentsignup.php", form))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
@@ -131,7 +131,7 @@ public class signup : MonoBehaviour
         form.AddField("password", password);
         form.AddField("question", question);
         form.AddField("answer", answer);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/professorsignup.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/professorsignup.php", form))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
@@ -149,7 +149,7 @@ public class signup : MonoBehaviour
 
     IEnumerator GetAllQuestions()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/check/getallquestions.php"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/getallquestions.php"))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
@@ -171,7 +171,7 @@ public class signup : MonoBehaviour
 
     IEnumerator GetAllProfessors()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/check/getallprofessors.php"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/getallprofessors.php"))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)

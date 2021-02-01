@@ -14,6 +14,7 @@ public class login : MonoBehaviour
     public Canvas experimentCanvas;
     public GameObject ErrorMessage;
     public GameObject ErrorMessagep;
+    public GameObject ErrorMessageA;
     public TMPro.TMP_InputField usersnameInputField;
     public TMPro.TMP_InputField passwordInputField;
     
@@ -37,6 +38,8 @@ public class login : MonoBehaviour
    
     public void loginStarter()
     {
+        ErrorMessage.gameObject.SetActive(false);
+        ErrorMessagep.gameObject.SetActive(false);
         if (username1.GetComponent<TMPro.TextMeshProUGUI>().text.Length <= 1)
         {
             ErrorMessage.gameObject.SetActive(true);
@@ -72,7 +75,7 @@ public class login : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("firstname", firstname);
         form.AddField("password", password);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/studentlogin.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/studentlogin.php", form))
         {
             yield return www.SendWebRequest();
             if(www.isNetworkError || www.isHttpError)
@@ -86,6 +89,7 @@ public class login : MonoBehaviour
                 {
                     usersnameInputField.text = "";
                     passwordInputField.text = "";
+                    ErrorMessageA.gameObject.SetActive(false);
                     ErrorMessage.gameObject.SetActive(false);
                     ErrorMessagep.gameObject.SetActive(false);
                     loginCanvas.gameObject.SetActive(false);
@@ -95,8 +99,8 @@ public class login : MonoBehaviour
                 {
                     usersnameInputField.text = "";
                     passwordInputField.text = "";
-                    ErrorMessage.gameObject.SetActive(true);
-                    ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
+                    ErrorMessageA.gameObject.SetActive(true);
+                    ErrorMessageA.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
                     Debug.Log(password);
                 }
             }
@@ -108,7 +112,7 @@ public class login : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("firstname", firstname);
         form.AddField("password", password);
-        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/professorlogin.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/check/VR-experiments-and-data-visualization-platform-backend/professorlogin.php", form))
         {
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
@@ -122,6 +126,8 @@ public class login : MonoBehaviour
                 {
                     usersnameInputField.text = "";
                     passwordInputField.text = "";
+                    ErrorMessageA.gameObject.SetActive(false);
+                    ErrorMessage.gameObject.SetActive(false);
                     ErrorMessage.gameObject.SetActive(false);
                     loginCanvas.gameObject.SetActive(false);
                     experimentCanvas.gameObject.SetActive(true);
@@ -130,8 +136,8 @@ public class login : MonoBehaviour
                 {
                     usersnameInputField.text = "";
                     passwordInputField.text = "";
-                    ErrorMessage.gameObject.SetActive(true);
-                    ErrorMessage.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
+                    ErrorMessageA.gameObject.SetActive(true);
+                    ErrorMessageA.GetComponent<TMPro.TextMeshProUGUI>().text = www.downloadHandler.text;
                     Debug.Log(password);
                 }
             }
